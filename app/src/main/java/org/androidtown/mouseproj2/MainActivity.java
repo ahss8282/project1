@@ -8,6 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.madu.common.constatns.ConstCommonNumberCode;
+import com.madu.common.constatns.ConstCommonSenSorCode;
+
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
     private long lastTime;
     private float speed;
@@ -15,11 +18,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private float lastY;
     private float lastZ;
     private float x, y, z;
-
-    private static final int SHAKE_THRESHOLD = 800;
-    private static final int DATA_X = 0;
-    private static final int DATA_Y = 1;
-    private static final int DATA_Z = 2;
 
     private SensorManager sensorManager;
     private Sensor accelerormeterSensor;
@@ -30,12 +28,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerormeterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
         myText = (TextView) findViewById(R.id.myText);
-
     }
 
     @Override
@@ -59,11 +54,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             long currentTime = System.currentTimeMillis();
             long gabOfTime = (currentTime - lastTime);
-            if (gabOfTime > 3000) {
+
+            if (gabOfTime > ConstCommonSenSorCode.GAP_OF_TIME) {
                 lastTime = currentTime;
                 x = event.values[0];
                 y = event.values[1];
@@ -71,13 +66,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                 speed = Math.abs(x + y + z - lastX - lastY - lastZ) / gabOfTime * 10000;
                 //흔들림의 정도에따라 이벤트를 넣게됨
-                if (speed > SHAKE_THRESHOLD) {
+                if (speed > ConstCommonSenSorCode.SHAKE_THRESHOLD) {
 
                 }
 
-                lastX = event.values[DATA_X];
-                lastY = event.values[DATA_Y];
-                lastZ = event.values[DATA_Z];
+                lastX = event.values[ConstCommonSenSorCode.DATA_X];
+                lastY = event.values[ConstCommonSenSorCode.DATA_Y];
+                lastZ = event.values[ConstCommonSenSorCode.DATA_Z];
                 myText.setText(String.valueOf(event.values[0])+","+String.valueOf(event.values[1])+","+String.valueOf(event.values[2])+"시발");
             }
 
