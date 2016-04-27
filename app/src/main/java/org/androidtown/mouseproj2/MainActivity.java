@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 lastX = event.values[DATA_X];
                 lastY = event.values[DATA_Y];
                 lastZ = event.values[DATA_Z];
-                myText.setText(String.valueOf(event.values[0])+","+String.valueOf(event.values[1])+","+String.valueOf(event.values[2])+"TEST");
+                myText.setText(String.valueOf(event.values[0])+","+String.valueOf(event.values[1])+","+String.valueOf(event.values[2])+"시발");
             }
 
         }
